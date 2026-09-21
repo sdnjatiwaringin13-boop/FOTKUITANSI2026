@@ -2,146 +2,91 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aplikasi Kuitansi Digital">
   <meta name="theme-color" content="#0f766e">
-  <meta name="description" content="Aplikasi pencetak kuitansi digital">
   <title>Kuitansi Digital</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-<div id="app">
-  <header class="topbar no-print">
+  <div id="toast" class="toast"></div>
+  <header class="topbar">
     <div class="brand">
-      <div class="brand-mark">✓</div>
-      <div><b>KUITANSI DIGITAL</b><small>Aplikasi Pencetak Kuitansi</small></div>
+      <div class="brand-logo">✓</div>
+      <div>
+        <b id="brandName">Kuitansi Digital</b>
+        <small>Aplikasi pencetak kuitansi</small>
+      </div>
     </div>
-    <div class="top-actions">
-      <button class="btn" id="newBtn">＋ Kuitansi Baru</button>
-      <button class="btn primary" id="printTopBtn">🖨 Cetak</button>
-    </div>
+    <button class="btn primary" id="newBtn">＋ Kuitansi Baru</button>
   </header>
 
-  <nav class="nav no-print">
-    <button class="nav-btn active" data-tab="form">Buat Kuitansi</button>
-    <button class="nav-btn" data-tab="history">Riwayat</button>
-    <button class="nav-btn" data-tab="settings">Pengaturan</button>
+  <nav class="tabs">
+    <button class="tab active" data-tab="form">Buat Kuitansi</button>
+    <button class="tab" data-tab="history">Riwayat</button>
+    <button class="tab" data-tab="settings">Pengaturan</button>
   </nav>
 
-  <div id="toast" class="toast no-print"></div>
-
   <main>
-    <section id="formTab" class="tab">
-      <div class="layout">
-        <div class="card editor no-print">
-          <div class="card-head">
-            <div><h2>Data Kuitansi</h2><p>Isi data pembayaran kemudian simpan atau cetak.</p></div>
-            <span id="statusBadge" class="badge">DRAFT</span>
-          </div>
-
-          <div class="grid">
-            <label>Nomor Kuitansi<input id="number" type="text"></label>
-            <label>Tanggal<input id="date" type="date"></label>
-            <label class="wide">Telah diterima dari<input id="payer" placeholder="Nama orang / instansi"></label>
-            <label class="wide">Alamat / Keterangan Penerima<input id="payerInfo" placeholder="Opsional"></label>
-            <label>Metode Pembayaran
-              <select id="method"><option>Tunai</option><option>Transfer</option><option>QRIS</option><option>Debit</option><option>Kredit</option></select>
-            </label>
-            <label>Diskon (Rp)<input id="discount" type="number" min="0" value="0"></label>
-          </div>
-
-          <div class="items-head">
-            <h3>Rincian Pembayaran</h3>
-            <button class="btn small" id="addItem">＋ Tambah Item</button>
-          </div>
-          <div id="items" class="items"></div>
-
-          <label class="notes">Catatan<textarea id="notes" rows="3" placeholder="Catatan tambahan..."></textarea></label>
-
-          <div class="totals-box">
-            <div><span>Subtotal</span><b id="subtotal">Rp0</b></div>
-            <div><span>Diskon</span><b id="discountView">Rp0</b></div>
-            <div class="grand"><span>Total</span><b id="total">Rp0</b></div>
-          </div>
-
-          <div class="actions">
-            <button class="btn primary" id="saveBtn">💾 Simpan</button>
-            <button class="btn" id="printBtn">🖨 Cetak / PDF</button>
-            <button class="btn danger-lite" id="resetBtn">Reset</button>
-          </div>
-        </div>
-
-        <div class="preview-area">
-          <div class="preview-label no-print">PRATINJAU KUITANSI — ukuran A4</div>
-          <article id="receipt" class="receipt">
-            <div class="receipt-head">
-              <div id="logoBox" class="logo-box">✓</div>
-              <div class="company">
-                <h1 id="rCompany">KUITANSI DIGITAL</h1>
-                <p id="rAddress">Alamat usaha / sekolah</p>
-                <p id="rPhone">Telepon / WhatsApp</p>
-              </div>
-              <div class="receipt-title">KUITANSI</div>
-            </div>
-
-            <div class="receipt-meta">
-              <div><small>Nomor</small><strong id="rNumber">-</strong></div>
-              <div><small>Tanggal</small><strong id="rDate">-</strong></div>
-            </div>
-
-            <div class="received">
-              <small>Telah diterima dari</small>
-              <strong id="rPayer">-</strong>
-              <span id="rPayerInfo"></span>
-            </div>
-
-            <table>
-              <thead><tr><th>No</th><th>Rincian Pembayaran</th><th>Qty</th><th>Jumlah</th></tr></thead>
-              <tbody id="rItems"></tbody>
-            </table>
-
-            <div class="terbilang"><small>Terbilang</small><b id="rWords">Nol rupiah</b></div>
-
-            <div class="payment">
-              <div><small>Metode pembayaran</small><b id="rMethod">Tunai</b></div>
-              <div><small>Catatan</small><b id="rNotes">-</b></div>
-            </div>
-
-            <div class="signature">
-              <div></div>
-              <div><span id="rPlaceDate">........................, -</span><div class="sign-space"></div><b id="rSigner">KUITANSI DIGITAL</b></div>
-            </div>
-            <footer id="rFooter">Terima kasih atas pembayaran Anda.</footer>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="historyTab" class="tab hidden no-print">
-      <div class="card wide-card">
+    <section id="formTab" class="workspace">
+      <div class="card no-print">
         <div class="card-head">
-          <div><h2>Riwayat Kuitansi</h2><p>Kuitansi tersimpan di browser perangkat ini.</p></div>
-          <input id="search" class="search" placeholder="Cari nomor / nama / transaksi...">
+          <div><h2>Data Kuitansi</h2><p>Isi transaksi kemudian simpan ke Google Spreadsheet.</p></div>
+          <span class="status">SIAP</span>
         </div>
-        <div id="historyList"></div>
+
+        <div class="grid">
+          <label>Nomor Kuitansi<input id="number" placeholder="Otomatis"></label>
+          <label>Tanggal<input id="date" type="date"></label>
+          <label class="wide">Diterima dari<input id="payer" placeholder="Nama orang / instansi"></label>
+          <label class="wide">Alamat / keterangan penerima<input id="address" placeholder="Opsional"></label>
+          <label>Metode<select id="method"><option>Tunai</option><option>Transfer</option><option>QRIS</option><option>Debit</option><option>Kredit</option></select></label>
+          <label>Diskon<input id="discount" type="number" min="0" value="0"></label>
+        </div>
+
+        <div class="section-head">
+          <h3>Rincian Pembayaran</h3>
+          <button class="btn small" id="addItem">＋ Tambah Item</button>
+        </div>
+        <div id="items"></div>
+
+        <label class="notes">Catatan<textarea id="notes" rows="3" placeholder="Catatan tambahan"></textarea></label>
+
+        <div class="actions">
+          <button class="btn primary" id="saveBtn">Simpan Kuitansi</button>
+          <button class="btn" id="printBtn">🖨 Cetak / PDF</button>
+          <button class="btn" id="resetBtn">Reset</button>
+        </div>
+      </div>
+
+      <div class="preview-area">
+        <div id="receipt" class="receipt"></div>
       </div>
     </section>
 
-    <section id="settingsTab" class="tab hidden no-print">
-      <div class="card wide-card">
-        <div class="card-head"><div><h2>Pengaturan</h2><p>Identitas yang muncul pada kuitansi.</p></div></div>
-        <div class="settings">
-          <label>Nama Usaha / Sekolah<input id="sCompany"></label>
-          <label>Alamat<input id="sAddress"></label>
-          <label>Telepon / WhatsApp<input id="sPhone"></label>
-          <label>Nama Penandatangan<input id="sSigner"></label>
-          <label>Footer<input id="sFooter"></label>
-          <label>Logo <input id="sLogo" type="file" accept="image/png,image/jpeg,image/webp"></label>
-          <div class="setting-buttons"><button class="btn primary" id="saveSettings">Simpan Pengaturan</button><button class="btn" id="removeLogo">Hapus Logo</button></div>
-        </div>
+    <section id="historyTab" class="card page hidden no-print">
+      <div class="card-head">
+        <div><h2>Riwayat Kuitansi</h2><p>Data diambil dari Google Spreadsheet.</p></div>
+        <input id="search" class="search" placeholder="Cari nomor / nama / item">
+      </div>
+      <div id="history"></div>
+    </section>
+
+    <section id="settingsTab" class="card page hidden no-print">
+      <div class="card-head"><div><h2>Pengaturan</h2><p>Identitas yang tampil di kuitansi.</p></div></div>
+      <div class="settings">
+        <label>Nama usaha / sekolah<input id="sName"></label>
+        <label>Alamat<input id="sAddress"></label>
+        <label>Telepon / WhatsApp<input id="sPhone"></label>
+        <label>Nama penandatangan<input id="sSigner"></label>
+        <label>Footer<input id="sFooter"></label>
+        <label>Logo (URL gambar)<input id="sLogo" placeholder="https://..."></label>
+        <button class="btn primary" id="saveSettings">Simpan Pengaturan</button>
       </div>
     </section>
   </main>
-</div>
-<script src="app.js"></script>
+
+  <script src="./config.js"></script>
+  <script src="./app.js"></script>
 </body>
 </html>

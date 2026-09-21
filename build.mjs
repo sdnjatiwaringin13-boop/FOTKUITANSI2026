@@ -1,7 +1,11 @@
-import { cp, mkdir, rm } from "node:fs/promises";
-import { existsSync } from "node:fs";
+import { cpSync, mkdirSync, existsSync } from "node:fs";
+import { resolve } from "node:path";
 
-await rm("dist", { recursive: true, force: true });
-await mkdir("dist", { recursive: true });
-await cp("public", "dist", { recursive: true });
-console.log("Static site copied to dist/");
+const root = resolve(".");
+const source = resolve(root, "public");
+const out = resolve(root, "dist");
+
+if (!existsSync(source)) throw new Error("Folder public tidak ditemukan.");
+mkdirSync(out, { recursive: true });
+cpSync(source, out, { recursive: true, force: true });
+console.log("Build berhasil. File static disalin ke dist/");

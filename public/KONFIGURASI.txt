@@ -1,0 +1,1 @@
+EDIT public/config.js setelah Google Apps Script selesai dideploy. Isi API_URL dengan URL Web App yang berakhiran /exec.

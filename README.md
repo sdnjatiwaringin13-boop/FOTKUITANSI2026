@@ -1,46 +1,55 @@
-# Kuitansi Digital — Siap Upload
+# Kuitansi Digital — Versi Final
 
-Aplikasi web pencetak kuitansi tanpa framework dan tanpa database.
+Aplikasi pencetak kuitansi dengan database Google Spreadsheet melalui Google Apps Script.
 
-## Fitur
-- Buat kuitansi
-- Nomor otomatis
-- Tanggal
-- Nama penerima
-- Alamat/keterangan
-- Banyak item
-- Qty x harga
-- Subtotal, diskon, total
-- Terbilang Rupiah
-- Metode pembayaran
-- Catatan
-- Logo usaha/sekolah
-- Pengaturan identitas
-- Riwayat, pencarian, edit, hapus
-- Cetak A4 / Save as PDF
-- Responsive
-- Penyimpanan localStorage
+## 1. Google Spreadsheet
+Buat Spreadsheet kosong → Extensions → Apps Script.
+Salin seluruh isi `google-apps-script/Code.gs`.
+Jalankan fungsi `setupDatabase` satu kali.
+Deploy → New deployment → Web app.
+Execute as: Me.
+Who has access: Anyone.
+Salin URL yang berakhiran `/exec`.
 
-## Cara paling mudah di Cloudflare Workers Builds
-Repository harus berisi:
-- package.json
-- build.mjs
-- wrangler.jsonc
-- public/index.html
-- public/styles.css
-- public/app.js
+## 2. Hubungkan website
+Buka `public/config.js` dan isi:
+```js
+const API_URL = "URL_WEB_APP_ANDA";
+```
+Contoh:
+```js
+const API_URL = "https://script.google.com/macros/s/AKfycb.../exec";
+```
 
-Pengaturan:
-Build command: npm run build
-Deploy command: npx wrangler deploy
-Version command: kosong
-Root directory: /
-Production branch: main
+## 3. GitHub
+Upload semua isi project.
+Jangan upload bun.lock atau bun.lockb.
 
-Tidak ada bun.lock dan tidak ada dependency npm tambahan.
-
-## Lokal
-npm install
+## 4. Cloudflare
+Build command:
 npm run build
 
-Hasil ada di dist/.
+Deploy command:
+npx wrangler deploy
+
+Version command:
+(kosong)
+
+Root directory:
+/ 
+
+Production branch:
+main
+
+## 5. Fitur
+- Buat/simpan/edit/hapus kuitansi
+- Riwayat dari Google Spreadsheet
+- Pencarian
+- Banyak item
+- Subtotal, diskon, total
+- Terbilang rupiah
+- Logo
+- Pengaturan identitas
+- Cetak A4 / Save as PDF
+- Nomor kuitansi server-side
+- Multi-user melalui database Spreadsheet
