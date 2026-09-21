@@ -1,49 +1,13 @@
-<!doctype html>
-<html lang="id">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kuitansi Sekolah</title><link rel="stylesheet" href="./styles.css">
-</head>
-<body>
-<div id="toast" class="toast"></div>
-<header class="topbar no-print"><div class="brand"><div class="brand-mark">▣</div><div><b>KUITANSI SEKOLAH</b><span>Aplikasi Pencetak Kuitansi Multi Sekolah</span></div></div><div class="top-actions"><span id="activeSchoolTop">-</span></div></header>
-<div class="layout">
-<aside class="sidebar no-print">
-<button class="side active" data-view="form">⌂ <span>Buat Kuitansi</span></button>
-<button class="side" data-view="history">◷ <span>Riwayat & Cetak</span></button>
-<button class="side" data-view="schools">🏫 <span>Data Sekolah</span></button>
-<button class="side" data-view="settings">⚙ <span>Pengaturan</span></button>
-<div class="side-title">SEKOLAH AKTIF</div><div id="schoolMini" class="school-mini">Belum dipilih</div>
-</aside>
+<!doctype html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kuitansi Sekolah</title><link rel="stylesheet" href="./styles.css"></head><body>
+<div id="toast" class="toast"></div><header class="topbar no-print"><div class="brand"><div class="brand-mark">🏫</div><div><b>KUITANSI SEKOLAH</b><span>Aplikasi Pencetak Kuitansi</span></div></div><span>Admin</span></header>
+<div class="layout"><aside class="sidebar no-print"><button class="side active" data-view="form">▤ <span>Buat Kuitansi</span></button><button class="side" data-view="history">◷ <span>Riwayat & Cetak</span></button><button class="side" data-view="schools">🏫 <span>Data Sekolah</span></button><button class="side" data-view="settings">⚙ <span>Pengaturan</span></button><hr><small>Nama kepala sekolah dan bendahara mengikuti baris sekolah di Spreadsheet. Bendahara kegiatan hanya satu untuk semua kuitansi.</small></aside>
 <main class="content">
-<section id="formView" class="view">
-<div class="columns">
-<div class="panel no-print">
-<div class="panel-title"><div><h1>▤ Buat Kuitansi</h1><p>Pilih sekolah. Kepala sekolah, bendahara dan bendahara kegiatan otomatis mengikuti sekolah tersebut.</p></div><button class="btn primary" id="newBtn">＋ Kuitansi Baru</button></div>
-<h3>Sekolah & Informasi Kuitansi</h3>
-<div class="form-grid">
-<label>Sekolah<select id="schoolId"></select></label>
-<label>Nomor Kuitansi<input id="number" placeholder="Otomatis"></label>
-<label>Tanggal<input id="date" type="date"></label>
-<label>Tahun Anggaran<input id="budgetYear" type="number"></label>
-<label>Diterima Dari<input id="payer" placeholder="Nama penerima pembayaran"></label>
-<label>Metode Pembayaran<select id="method"><option>Tunai</option><option>Transfer</option><option>QRIS</option><option>Debit</option><option>Kredit</option></select></label>
-<label class="full">Untuk Pembayaran<textarea id="purpose" rows="2" placeholder="Uraian tujuan pembayaran"></textarea></label>
-<label>Diskon<input id="discount" type="number" min="0" value="0"></label>
-</div>
-<div class="section-row"><h3>Rincian Pembayaran</h3><button class="btn small" id="addItem">＋ Tambah Item</button></div>
-<div id="items" class="items-wrap"></div>
-<div class="totals"><div>Subtotal <b id="subtotal">Rp 0</b></div><div>Diskon <b id="discountView">Rp 0</b></div><div class="grand">Total <b id="total">Rp 0</b></div></div>
-<label>Catatan<textarea id="notes" rows="2" placeholder="Catatan tambahan"></textarea></label>
-<div class="actions"><button class="btn print" id="printBtn">▣ Cetak / PDF</button><button class="btn save" id="saveBtn">▣ Simpan</button><button class="btn" id="resetBtn">Reset</button></div>
-<div class="signer-panel"><div class="signer-title">♟ Penandatangan Sekolah <small>otomatis dari Spreadsheet</small></div><div class="signers"><div><small>Kepala Sekolah</small><b id="kepalaNama">-</b><span id="kepalaNip">NIP. -</span></div><div><small>Bendahara</small><b id="bendaharaNama">-</b><span id="bendaharaNip">NIP. -</span></div><div><small>Bendahara Kegiatan</small><b id="kegiatanNama">-</b><span id="kegiatanNip">NIP. -</span></div></div></div>
-</div>
-<div class="preview-panel"><div class="preview-head no-print"><b>▧ Pratinjau Kuitansi</b><button class="btn primary small" onclick="window.print()">▣ Cetak</button></div><div id="receipt" class="receipt"></div></div>
-</div></section>
-<section id="historyView" class="panel page hidden no-print"><div class="panel-title"><div><h1>◷ Riwayat Kuitansi</h1><p>Pilih satu atau banyak kuitansi untuk dicetak / disimpan sebagai satu PDF.</p></div><input id="search" class="search" placeholder="Cari nomor / sekolah / penerima"></div>
-<div class="batchbar"><label class="checkall"><input type="checkbox" id="selectAll"> Pilih semua</label><span id="selectedCount">0 terpilih</span><button class="btn primary" id="batchPrint">▣ Cetak / Simpan PDF Terpilih</button></div><div id="history"></div></section>
-<section id="schoolsView" class="panel page hidden no-print"><div class="panel-title"><div><h1>🏫 Data Sekolah</h1><p>Tambah banyak sekolah beserta kepala sekolah, bendahara dan bendahara kegiatan.</p></div><button class="btn primary" id="newSchoolBtn">＋ Tambah Sekolah</button></div><div id="schoolForm" class="school-form hidden"><input id="editSchoolId" type="hidden"><div class="settings-grid"><label>Kode Sekolah<input id="scCode" placeholder="Contoh: SMP001"></label><label>Nama Sekolah<input id="scName"></label><label>Alamat<input id="scAddress"></label><label>Kota<input id="scCity"></label><label>Kepala Sekolah<input id="scKepala"></label><label>NIP Kepala Sekolah<input id="scKepalaNip"></label><label>Bendahara<input id="scBendahara"></label><label>NIP Bendahara<input id="scBendaharaNip"></label><label>Bendahara Kegiatan<input id="scKegiatan"></label><label>NIP Bendahara Kegiatan<input id="scKegiatanNip"></label><label class="full">Status<select id="scActive"><option value="true">Aktif</option><option value="false">Tidak Aktif</option></select></label></div><div class="actions"><button class="btn primary" id="saveSchool">Simpan Sekolah</button><button class="btn" id="cancelSchool">Batal</button></div></div><div id="schoolsTable"></div></section>
-<section id="settingsView" class="panel page hidden no-print"><div class="panel-title"><div><h1>⚙ Pengaturan</h1><p>Pengaturan aplikasi.</p></div></div><p class="info">Data kepala sekolah, bendahara sekolah dan bendahara kegiatan sekarang dikelola per sekolah melalui menu <b>Data Sekolah</b>.</p><div class="settings-grid"><label>Footer Kuitansi<input id="sFooter"></label><label>Format Nomor<input value="KNT/TAHUN/001" disabled></label></div><button class="btn primary" id="saveSettings">Simpan Pengaturan</button></section>
-</main></div>
-<script src="./config.js"></script><script src="./app.js"></script>
-</body></html>
+<section id="formView" class="view"><div class="columns"><div class="panel no-print"><div class="panel-title"><div><h1>▤ Buat Kuitansi</h1><p>Data sekolah dan penandatangan otomatis dari Spreadsheet.</p></div><button class="btn primary" id="newBtn">＋ Kuitansi Baru</button></div>
+<div class="form-grid"><label>Sekolah *<select id="schoolId"></select></label><label>Nomor Kuitansi *<input id="number" placeholder="Otomatis"></label><label>Tanggal *<input id="date" type="date"></label><label>Tahun Anggaran *<input id="budgetYear" type="number"></label><label>Metode Pembayaran<select id="method"><option>Tunai</option><option>Transfer</option><option>QRIS</option><option>Debit</option><option>Kredit</option></select></label><label>Diterima Dari<input id="payer" readonly></label><label class="full">Untuk Pembayaran *<textarea id="purpose" rows="3"></textarea></label></div>
+<div class="section-row"><h3>Rincian Pembayaran</h3><button class="btn small" id="addItem">＋ Tambah Item</button></div><div id="items" class="items-wrap"></div><div class="totals"><div class="grand">Total <b id="total">Rp 0</b></div></div><label>Catatan<textarea id="notes" rows="2"></textarea></label><div class="actions"><button class="btn print" id="printBtn">▣ Cetak / PDF</button><button class="btn save" id="saveBtn">▣ Simpan</button><button class="btn" id="resetBtn">Reset</button></div>
+<div class="signer-panel"><div class="signer-title">Penandatangan otomatis dari Spreadsheet</div><div class="signers"><div><small>Kepala Sekolah</small><b id="kepalaNama">-</b><span id="kepalaNip">NIP. -</span></div><div><small>Bendahara Sekolah</small><b id="bendaharaNama">-</b><span id="bendaharaNip">NIP. -</span></div><div><small>Bendahara Kegiatan (global)</small><b id="kegiatanNama">-</b><span id="kegiatanNip">NIP. -</span></div></div></div></div>
+<div class="preview-panel"><div class="preview-head no-print"><b>▧ Pratinjau Kuitansi</b><button class="btn primary small" onclick="window.print()">▣ Cetak</button></div><div id="receipt" class="receipt"></div></div></div></section>
+<section id="historyView" class="panel page hidden no-print"><div class="panel-title"><div><h1>◷ Riwayat & Cetak</h1><p>Pilih satu atau banyak kuitansi untuk menjadi satu PDF.</p></div><div><input id="search" class="search" placeholder="Cari sekolah / nomor / uraian"><button class="btn primary" id="batchPrint">▣ Cetak / PDF Terpilih</button></div></div><label class="checkall"><input type="checkbox" id="selectAll"> Pilih semua <span id="selectedCount">0 terpilih</span></label><div id="history"></div></section>
+<section id="schoolsView" class="panel page hidden no-print"><div class="panel-title"><div><h1>🏫 Data Sekolah</h1><p>Setiap baris = satu sekolah. Struktur sesuai Spreadsheet.</p></div><button class="btn primary" id="newSchoolBtn">＋ Tambah Sekolah</button></div><div id="schoolForm" class="school-form hidden"><input id="editSchoolId" type="hidden"><div class="settings-grid"><label>Nama Sekolah *<input id="scName"></label><label>Kepala Sekolah<input id="scKepala"></label><label>NIP Kepala Sekolah<input id="scKepalaNip"></label><label>Bendahara Sekolah<input id="scBendahara"></label><label>NIP Bendahara Sekolah<input id="scBendaharaNip"></label></div><div class="actions"><button class="btn primary" id="saveSchool">Simpan</button><button class="btn" id="cancelSchool">Batal</button></div></div><div id="schoolsTable"></div></section>
+<section id="settingsView" class="panel page hidden no-print"><div class="panel-title"><div><h1>⚙ Pengaturan</h1><p>Bendahara kegiatan diisi sekali dan berlaku untuk semua sekolah/kuitansi.</p></div></div><div class="settings-grid"><label>Bendahara Kegiatan *<input id="gKegiatan"></label><label>NIP Bendahara Kegiatan<input id="gNipKegiatan"></label><label>Kota Default<input id="gCity"></label><label class="full">Footer Kuitansi<input id="gFooter"></label></div><button class="btn primary" id="saveSettings">Simpan Pengaturan</button></section>
+</main></div><script src="./config.js"></script><script src="./app.js"></script></body></html>
