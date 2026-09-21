@@ -1,12 +1,7 @@
 {
-  "name": "kuitansi-digital-final",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "build": "node build.mjs",
-    "start": "node -e \"console.log('Static site: use Cloudflare deployment')\""
-  },
-  "engines": {
-    "node": ">=18"
-  }
+  "name":"kuitansi-smp-digital",
+  "version":"3.0.0",
+  "private":true,
+  "scripts":{"build":"node build.mjs"},
+  "engines":{"node":">=18"}
 }
